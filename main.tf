@@ -1,22 +1,13 @@
-module "nginx_1" {
+module "nginx" {
   source = "./modules/nginx"
 
-  image_name    = "nginx:latest"
-  container_name = "nginx_1"
-  external_port  = 8081
-}
+  for_each = {
+    nginx1 = 8081
+    nginx2 = 8082
+    nginx3 = 8083
+  }
 
-module "nginx_2" {
-    source = "./modules/nginx"
-
-    image_name = "nginx:latest"
-    container_name = "nginx-2"
-    external_port = 8082
-}
-module "nginx_3" {
-    source = "./modules/nginx"
-
-    image_name = "nginx:latest"
-    container_name = "nginx_3"
-    external_port = 8083
+  image_name      = "nginx:latest"
+  container_name  = each.key
+  external_port   = each.value
 }
